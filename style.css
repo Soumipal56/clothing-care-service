@@ -1,0 +1,373 @@
+@font-face{
+    font-family: "logo";
+    src: url(./PandaSpots-yGAd.ttf);
+}
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body{
+    width: 100%;
+    height: 100%;
+    background-color: rgb(86, 223, 247);
+   
+}
+
+#main{
+    background: linear-gradient(to right, rgb(86, 223, 247) 40%,rgb(245, 245, 155) 80% );
+    position: absolute;
+    top: 40px;
+    left: 35px;
+    right: 35px;
+    bottom: 50px;
+    border-radius: 15px;
+    /* spread bottom-only shadow (wider spread) */
+    box-shadow: 0 22px 40px 12px rgba(0,0,0,0.32),
+                0 10px 20px 6px rgba(0,0,0,0.18);
+    overflow: hidden; /* prevent children (image) from escaping the rounded container */
+}
+
+/* nav styles (add rules here if needed) */
+
+/* Utility: apply a bottom-only grey shadow to any element */
+.shadow-bottom{
+    box-shadow: 0 22px 40px 12px rgba(0,0,0,0.32),
+                0 10px 20px 6px rgba(0,0,0,0.18);
+}
+
+#nav{
+    position: relative; /* needed for absolute centering of #links */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: nowrap; /* keep everything on one line */
+    padding-right: 30px; /* restore right padding on nav */
+    padding: 20px;
+    /* blend the nav visually into the #home gradient below */
+    background: linear-gradient(90deg, rgba(51,242,201,0.14) 0%, rgba(245,245,155,0.14) 100%);
+    backdrop-filter: blur(6px) saturate(1.05);
+    -webkit-backdrop-filter: blur(6px) saturate(1.05);
+    transition: background 200ms ease, backdrop-filter 200ms ease;
+    border-bottom: 1px solid rgba(0,0,0,0.04);
+}
+
+#nav #logo{
+    font-family: logo;
+    padding-left: 30px;  
+}
+
+#nav #logo h1{
+    margin: 0;
+    font-size: 20px;
+    line-height: 1;
+}
+
+#nav #links{
+    display: flex;
+    gap: 70px;
+    align-items: center;
+    color: black;
+}
+
+#nav #links a{
+    text-decoration: none;
+    color: black;
+}
+
+/* button inside links: inline, padded from the right edge */
+#nav > button{
+    margin-left: 12px;
+    margin-right: 30px; /* spacing from the right edge */
+    padding: 8px 14px;
+    border-radius: 6px;
+    border: none;
+    background-color: rgb(245, 245, 155);
+    color: black;
+    border: 1px solid black;
+    cursor: pointer;
+    width: 150px;
+    
+}
+
+/* Ensure links in the nav are black and not underlined */
+#nav #links a,
+#nav #links a:visited,
+#nav #links a:active,
+#nav #links a:hover{
+    color: black;
+    text-decoration: none;
+}
+
+#home{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    /* allow the home area to use available space inside #main */
+    height: calc(100% - 80px);
+    overflow: hidden; /* keep content contained vertically */
+    /* sky (blue) to yellow gradient behind the shirt */
+    background: linear-gradient(90deg,  rgb(83, 227, 253) 0%, rgb(245, 245, 106) 100%);
+    position: relative;
+    isolation: isolate; /* create a stacking context for blend modes */
+}
+
+/* image container: centered and large on wide screens, responsive on smaller screens */
+#home #mid{
+    width: 70%;           /* use most of the available width */
+    max-width: 900px;     /* cap the size so it stays visually reasonable */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-height: 100%;
+    padding: 0; /* show the original image canvas without extra padding */
+    position: relative;
+}
+
+/* ensure the img scales and stays centered */
+#home #mid img{
+    display: block;
+    width: 100%;    /* fill the container for a large image */
+    height: auto;
+    object-fit: contain;
+    max-height: 100%;
+    border-radius: 0; /* show the full rectangular image */
+    /* make the shirt look more defined: stronger white highlight for small bright
+       details (buttons), deep shadows and high contrast remain */
+    -webkit-filter: drop-shadow(0 28px 56px rgba(0,0,0,0.56)) brightness(0.55) contrast(1.7) saturate(1.15);
+    filter: drop-shadow(0 28px 56px rgba(0,0,0,0.56)) brightness(0.55) contrast(1.7) saturate(1.15);
+     mix-blend-mode: screen; /* keep black areas visually removed */
+     transform: translateZ(0); /* GPU hint for crisper rendering */
+}
+
+/* subtle light-sky highlight and tint for the shirt using pseudo-elements
+   - ::before: a radial, slightly stronger sky-colored highlight positioned
+     toward the upper-center where the shirt buttons typically are
+   - ::after: a low-opacity linear sky tint over the whole shirt to cast color */
+/* button highlight overlay removed */
+
+#home #mid::after{
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    border-radius: 0; /* keep the full canvas */
+    background: linear-gradient(90deg, rgba(51,242,201,0.06) 0%, rgba(245,245,155,0.06) 100%);
+    mix-blend-mode: overlay; /* gentle overall tint */
+    opacity: 0.9;
+}
+
+/* removed tint overlay so the gradient shows through the shirt via mix-blend-mode:screen */
+
+/* gradient tint overlay removed */
+
+@media (max-width: 1024px) {
+    #home #mid{
+        width: 85%;
+        max-width: 720px;
+    }
+}
+
+@media (max-width: 640px) {
+    #home #mid{
+        width: 92%;
+        max-width: 92%;
+    }
+    #nav #links{
+        gap: 14px;
+        font-size: 14px;
+    }
+}
+
+#home #left h1{
+    font-size: 12px;
+    position: absolute;
+    top: 20%;
+    left: 35%;
+    font-weight: 5;
+    letter-spacing: 1px;
+}
+
+#home #right h1{
+    font-size: 12px;
+    position: absolute;
+    top: 30%;
+    left: 55%;
+    font-weight: 5;
+    letter-spacing: 1px;
+}
+
+/* Bluesky inline icon styling (fallback to ensure icon always shows) */
+.left-icon {
+    width: 3rem; /* larger for better visibility */
+    height: 3rem;
+    object-fit: cover;
+    border-radius: 50%; /* circular crop for clearer icon shape */
+    vertical-align: -0.25rem;
+    margin-right: 0.6rem;
+    display: inline-block;
+    border: 2px solid rgba(255,255,255,0.95); /* separates image from background */
+    box-shadow: 0 6px 14px rgba(0,0,0,0.18);
+    background-color: #fff; /* fallback background for contrast */
+    filter: contrast(1.08) brightness(1.03);
+}
+
+#bottom_left{
+    font-size: 90px;
+    font-weight: 110;
+    line-height: 65px;
+    position: absolute;
+    top: 20%;
+    left: 14%;
+}
+
+#bottom_left i{
+    color: rgb(247, 247, 13);
+    font-size: 25px;
+    border-radius: 5px;
+}
+
+#bottom_left h5{
+    color: white;
+    letter-spacing: 6px;
+}
+
+#bottom_right{
+    position: absolute;
+    top: 40%;
+    left: 70%;
+    width: 190px;
+    height: 250px;
+    background-color: rgb(198, 249, 143);
+    border-radius: 10px;
+    border: 2px solid rgba(234, 250, 203, 0.95);
+    box-shadow: 0 6px 14px rgba(0,0,0,0.18);
+    transform: translateZ(0);
+    padding: 20px;
+}
+
+#bottom_right img{
+    background-size: cover;
+    background-position: center;
+    width: 150px;
+    height: 130px;
+}
+
+#bottom_right h1{
+    text-align: center;
+    font-size: 40px;
+    color: black
+}
+
+#bottom_right h5{
+    text-align: center;
+}
+
+#footer{
+    background-color: rgb(6, 17, 6);
+    width: 100%;
+    height: 60px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    padding: 10px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#footer_left{
+    display: flex;
+    align-items: center;
+    position: relative;
+    padding: 10px;
+    margin-left: 5px;
+}
+
+#footer_left #first{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid white;
+    z-index: 1;
+}
+
+#footer_left #second{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid white;
+    margin-left: -12px;
+    z-index: 2;
+}
+
+#footer_left #third{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid white;
+    margin-left: -12px;
+    z-index: 3;
+}
+
+#footer_left #fourth{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid white;
+    margin-left: 5px;
+    z-index: 4;
+}
+
+#footer_left #fifth{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid white;
+    margin-left: 12px;
+    z-index: 5;
+}
+
+#footer_text{
+    color: white;
+    font-size: 20px;
+    font-weight: 900;
+    margin-left: 10px;
+    z-index: 10;
+    position: relative;
+}
+
+#footer_right button{
+    background-color: white;
+    color: black;
+    border: 1px solid black;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-right: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+#footer_right button i{
+    font-size: 18px;
+    color: black;
+    font-weight: bold;
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 5px;
+    opacity: 1;
+    visibility: visible;
+}
